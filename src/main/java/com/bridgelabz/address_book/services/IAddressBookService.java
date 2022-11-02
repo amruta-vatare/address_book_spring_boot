@@ -15,5 +15,7 @@ public interface IAddressBookService {
     void deleteContact(int id);
 
     void updateContact(int id, ContactDTO contactDto);
+
+    ContactDTO getContactByMail(String mail);
     
 }

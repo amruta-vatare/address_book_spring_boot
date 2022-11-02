@@ -72,4 +72,12 @@ public class AddressBookController {
             .status(HttpStatus.OK)
             .body("Contact was updated successfully. (CODE 201)\n");
     }
+    @GetMapping("mail/{mail}")
+    public ResponseEntity<ContactResponse> getContactByMail(@PathVariable String mail) {
+        ContactDTO contactDto =  service.getContactByMail(mail);
+        ContactResponse contactResponse =   Mapper.fromService(contactDto);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(contactResponse);
+    }
 }

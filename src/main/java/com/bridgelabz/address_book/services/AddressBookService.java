@@ -55,5 +55,12 @@ public class AddressBookService implements IAddressBookService {
         repository.save(contactData);
     }
 
+    @Override
+    public ContactDTO getContactByMail(String mail) {
+        ContactData contact = repository.findContactByEmail(mail);
+        ContactDTO dto = Mapper.fromRepository(contact);
+        return dto;
+    }
+
     
 }
