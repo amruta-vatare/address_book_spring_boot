@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class AddressBookData {
+public class ContactData {
     @Id
     @GeneratedValue
     private int id;
@@ -33,5 +33,7 @@ public class AddressBookData {
 
     @Column(name = "EMAIL")
 	private String email;
+
+    public ContactData(){};
     
 }
