@@ -39,9 +39,9 @@ public class AddressBookController {
     }
     
     
-    @GetMapping("get/{id}")
-    public ResponseEntity<ContactResponse> getContact(@PathVariable int id) {
-        ContactDTO contactDto =  service.getContact(id);
+    @GetMapping("get/{token}")
+    public ResponseEntity<ContactResponse> getContact(@PathVariable String token) {
+        ContactDTO contactDto =  service.getContact(token);
         ContactResponse contactResponse =   Mapper.fromService(contactDto);
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -57,18 +57,18 @@ public class AddressBookController {
             .body(contactResponse);
     }
 
-    @DeleteMapping("remove/{id}")
-    public ResponseEntity<String> deleteContact(@PathVariable int id) {
-       service.deleteContact(id);
+    @DeleteMapping("remove/{token}")
+    public ResponseEntity<String> deleteContact(@PathVariable String token) {
+       service.deleteContact(token);
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Contact was deleted successfully. (CODE 201)\n");
     }
     
-    @PutMapping("edit/{id}")
-    public ResponseEntity<String> updateContact(@PathVariable int id,@RequestBody ContactRequest contactRequest) {
+    @PutMapping("edit/{token}")
+    public ResponseEntity<String> updateContact(@PathVariable String token,@RequestBody ContactRequest contactRequest) {
         ContactDTO contactDto = Mapper.toService(contactRequest);
-        service.updateContact(id,contactDto);
+        service.updateContact(token,contactDto);
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("Contact was updated successfully. (CODE 201)\n");

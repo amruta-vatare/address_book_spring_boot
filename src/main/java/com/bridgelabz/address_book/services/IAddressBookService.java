@@ -8,13 +8,13 @@ public interface IAddressBookService {
 
     String addContact(ContactDTO dto);
 
-    ContactDTO getContact(int id);
+    ContactDTO getContact(String token);
 
     List<ContactDTO> getAllContacts();
 
-    void deleteContact(int id);
+    void deleteContact(String token);
 
-    void updateContact(int id, ContactDTO contactDto);
+    void updateContact(String token, ContactDTO contactDto);
 
     ContactDTO getContactByMail(String mail);
     

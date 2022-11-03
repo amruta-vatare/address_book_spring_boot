@@ -12,6 +12,8 @@ import com.bridgelabz.address_book.security.JwtUtil;
 import com.bridgelabz.address_book.services.model.ContactDTO;
 import com.bridgelabz.address_book.services.model.Mapper;
 
+import ch.qos.logback.core.subst.Token;
+
 @Service
 public class AddressBookService implements IAddressBookService {
     @Autowired
@@ -29,7 +31,8 @@ public class AddressBookService implements IAddressBookService {
     }
 
     @Override
-    public ContactDTO getContact(int id) {
+    public ContactDTO getContact(String token) {
+    int id = util.decodeToken(token);
     List<ContactData> contacts  = repository.findAll();
     ContactDTO dto = Mapper.fromRepository(contacts.stream().filter(contact->contact.getId() == id).findFirst().orElseThrow(()->new AddressBookException("Contact is not found!")));
     return dto;
@@ -43,13 +46,15 @@ public class AddressBookService implements IAddressBookService {
     }
 
     @Override
-    public void deleteContact(int id) {
+    public void deleteContact(String token) {
+        int id = util.decodeToken(token);
         ContactData contact = repository.findById(id).get();
         repository.delete(contact);
     }
 
     @Override
-    public void updateContact(int id, ContactDTO contact) {
+    public void updateContact(String token, ContactDTO contact) {
+        int id = util.decodeToken(token);
         ContactData contactData = repository.findById(id).get();
         contactData.setFullName(contact.getFullName());
         contactData.setPhoneNumber(contact.getPhoneNumber());
