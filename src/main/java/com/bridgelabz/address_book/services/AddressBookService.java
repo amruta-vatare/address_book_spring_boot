@@ -8,18 +8,24 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.address_book.advice.AddressBookException;
 import com.bridgelabz.address_book.repository.IAddressBookRepository;
 import com.bridgelabz.address_book.repository.model.ContactData;
+import com.bridgelabz.address_book.security.JwtUtil;
 import com.bridgelabz.address_book.services.model.ContactDTO;
 import com.bridgelabz.address_book.services.model.Mapper;
 
 @Service
 public class AddressBookService implements IAddressBookService {
     @Autowired
-    IAddressBookRepository repository;
+    private IAddressBookRepository repository;
+
+    @Autowired
+    private JwtUtil util;
 
     @Override
-    public void addContact(ContactDTO dto) {
+    public String addContact(ContactDTO dto) {
         ContactData contact = Mapper.toRepository(dto);
         repository.save(contact);
+        String token = util.generateToken(contact.getId());
+        return token;
     }
 
     @Override

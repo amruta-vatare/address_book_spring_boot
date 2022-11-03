@@ -6,7 +6,7 @@ import com.bridgelabz.address_book.services.model.ContactDTO;
 
 public interface IAddressBookService {
 
-    void addContact(ContactDTO dto);
+    String addContact(ContactDTO dto);
 
     ContactDTO getContact(int id);
 

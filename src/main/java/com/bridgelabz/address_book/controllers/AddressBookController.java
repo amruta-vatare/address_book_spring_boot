@@ -31,10 +31,11 @@ public class AddressBookController {
     @PostMapping("/add")
     public ResponseEntity<String> addContact(@RequestBody @Valid ContactRequest contactRequest){
         ContactDTO dto = Mapper.toService(contactRequest);
-        service.addContact(dto);        
+        String token = service.addContact(dto);      
+        //"New contact was added successfully. (CODE 201)\n"  
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body("New contact was added successfully. (CODE 201)\n");
+                .body(token+" \nNew contact was added successfully. (CODE 201)\n");
     }
     
     
