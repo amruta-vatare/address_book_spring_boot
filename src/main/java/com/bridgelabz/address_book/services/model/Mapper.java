@@ -42,6 +42,7 @@ public class Mapper {
             contact.setZipCode(contactDTO.getZipCode());
             contact.setPhoneNumber(contactDTO.getPhoneNumber());
             contact.setEmail(contactDTO.getEmail());
+            contact.setId(contactDTO.getId());
             dtos.add(contact);
         }
         return dtos;

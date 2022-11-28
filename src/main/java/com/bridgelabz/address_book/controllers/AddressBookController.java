@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +23,9 @@ import com.bridgelabz.address_book.services.model.ContactDTO;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin
 @Controller
-@RequestMapping("/book")
+@RequestMapping("/addressBook")
 public class AddressBookController {
     @Autowired
     IAddressBookService service;
@@ -32,7 +34,6 @@ public class AddressBookController {
     public ResponseEntity<String> addContact(@RequestBody @Valid ContactRequest contactRequest){
         ContactDTO dto = Mapper.toService(contactRequest);
         String token = service.addContact(dto);      
-        //"New contact was added successfully. (CODE 201)\n"  
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(token+" \nNew contact was added successfully. (CODE 201)\n");

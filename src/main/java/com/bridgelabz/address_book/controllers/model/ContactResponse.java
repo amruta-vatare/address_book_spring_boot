@@ -13,5 +13,8 @@ public class ContactResponse {
 	private String state;
 	private int zipCode;
 	private String email;
+
+	private String token;
+	private int id;
 	public ContactResponse(){};
 }

@@ -12,5 +12,8 @@ public class ContactDTO {
 	private int zipCode;
 	private String email;
 
+	private int id;
+	private String token;
     public ContactDTO(){};
+	
 }

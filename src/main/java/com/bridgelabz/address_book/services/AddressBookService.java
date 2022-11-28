@@ -13,8 +13,6 @@ import com.bridgelabz.address_book.security.JwtUtil;
 import com.bridgelabz.address_book.services.model.ContactDTO;
 import com.bridgelabz.address_book.services.model.Mapper;
 
-import ch.qos.logback.core.subst.Token;
-
 @Service
 public class AddressBookService implements IAddressBookService {
     @Autowired
@@ -51,6 +49,9 @@ public class AddressBookService implements IAddressBookService {
     public List<ContactDTO> getAllContacts() {
         List<ContactData> contacts  = repository.findAll();
         List<ContactDTO> contactDTOs = Mapper.fromRepository(contacts);
+        for (ContactDTO contactDTO : contactDTOs) {
+            contactDTO.setToken(util.generateToken(contactDTO.getId()));
+        }
         return contactDTOs;
     }
 
@@ -59,6 +60,7 @@ public class AddressBookService implements IAddressBookService {
         int id = util.decodeToken(token);
         ContactData contact = repository.findById(id).get();
         repository.delete(contact);
+        //senderService.sendEmail(contact.getEmail(), "Confirmation authentication", "Hello, "+contact.getFullName()+"\n"+token+"\n the contact was deleted successfully!");
     }
 
     @Override
@@ -73,6 +75,7 @@ public class AddressBookService implements IAddressBookService {
         contactData.setZipCode(contact.getZipCode());
         contactData.setEmail(contact.getEmail());
         repository.save(contactData);
+        //senderService.sendEmail(contact.getEmail(), "Confirmation authentication", "Hello, "+contact.getFullName()+"\n"+token+"\n the contact was updated successfully!");
     }
 
     @Override
@@ -83,4 +86,6 @@ public class AddressBookService implements IAddressBookService {
     }
 
     
+    
 }
+         

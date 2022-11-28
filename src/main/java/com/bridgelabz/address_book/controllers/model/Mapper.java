@@ -2,7 +2,10 @@ package com.bridgelabz.address_book.controllers.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.bridgelabz.address_book.repository.model.AddressBookUser;
 import com.bridgelabz.address_book.services.model.ContactDTO;
+import com.bridgelabz.address_book.services.model.UserDTO;
 
 public class Mapper {
     public static ContactResponse fromService(ContactDTO dto){
@@ -40,8 +43,27 @@ public class Mapper {
             response.setState(contactDto.getState());
             response.setZipCode(contactDto.getZipCode());
             response.setEmail(contactDto.getEmail());
+            
+            response.setId(contactDto.getId());
+            response.setToken(contactDto.getToken());
             responses.add(response);
         }
         return responses;
+    }
+
+    public static UserDTO toService(UserRequest userRequest) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userRequest.getUserName());
+        userDTO.setEmail(userRequest.getEmail());
+        userDTO.setPassword(userRequest.getPassword());
+        return userDTO;
+    }
+
+    public static AddressBookUser toRepository(UserDTO userdto) {
+        AddressBookUser user = new AddressBookUser();
+        user.setUserName(userdto.getUserName());
+        user.setEmail(userdto.getEmail());
+        user.setPassword(userdto.getPassword());
+        return user;
     }
 }

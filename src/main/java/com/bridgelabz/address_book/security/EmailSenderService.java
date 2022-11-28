@@ -1,5 +1,4 @@
 package com.bridgelabz.address_book.security;
-import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
