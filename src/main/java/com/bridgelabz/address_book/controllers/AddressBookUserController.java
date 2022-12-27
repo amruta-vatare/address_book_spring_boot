@@ -2,6 +2,7 @@ package com.bridgelabz.address_book.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,12 +35,23 @@ public class AddressBookUserController {
 
     }
 
-    @GetMapping("/validateUser")
-    public ResponseEntity<String> validateUser(@RequestBody UserRequest userRequest){
+    @PostMapping("/loginUser")
+    public ResponseEntity<UserResponse> loginUser(@RequestBody UserRequest userRequest){
         UserDTO userdto = Mapper.toService(userRequest);
         String tokenString = userService.validateUser(userdto);
+        if(tokenString == null)
+        {
+            return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(null);
+        }
+
+        UserResponse response = new UserResponse();
+        response.setEmail(userRequest.getEmail());
+        response.setToken(tokenString);
+        
         return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body(tokenString);
+        .status(HttpStatus.OK)
+        .body(response);
     }
 }

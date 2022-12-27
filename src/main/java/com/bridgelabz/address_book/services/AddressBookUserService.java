@@ -38,9 +38,8 @@ public class AddressBookUserService implements IAddressBookUserService {
             if(token!= null){
                 return token;
             }
-        }
-        
-        return "Login fail!";
+        }        
+        return null;
     }
     
     

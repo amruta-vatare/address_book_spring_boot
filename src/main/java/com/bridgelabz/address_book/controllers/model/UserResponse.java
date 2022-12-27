@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserResponse {
-    private String userName;
+    private String email;
     private String token;
 }
