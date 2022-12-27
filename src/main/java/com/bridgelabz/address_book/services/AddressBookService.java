@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.address_book.advice.AddressBookException;
+import com.bridgelabz.address_book.advice.ValidationException;
 import com.bridgelabz.address_book.repository.IAddressBookRepository;
 import com.bridgelabz.address_book.repository.model.ContactData;
 import com.bridgelabz.address_book.security.EmailSenderService;
@@ -25,8 +26,12 @@ public class AddressBookService implements IAddressBookService {
     private JwtUtil util;
 
     @Override
-    public String addContact(ContactDTO dto) {
+    public String addContact(ContactDTO dto)throws ValidationException {
         ContactData contact = Mapper.toRepository(dto);
+        int count = repository.isContactIsPresent(contact.getEmail(),contact.getPhoneNumber());
+        if(count > 0){
+            throw new ValidationException("User with email "+contact.getEmail()+" and phone number "+contact.getPhoneNumber()+" is already exist");
+        }
         repository.save(contact);
         String token = util.generateToken(contact.getId());
         try{

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bridgelabz.address_book.advice.ValidationException;
 import com.bridgelabz.address_book.controllers.model.ContactRequest;
 import com.bridgelabz.address_book.controllers.model.ContactResponse;
 import com.bridgelabz.address_book.controllers.model.Mapper;
@@ -33,12 +34,19 @@ public class AddressBookController {
     @PostMapping("/add")
     public ResponseEntity<String> addContact(@RequestBody @Valid ContactRequest contactRequest){
         ContactDTO dto = Mapper.toService(contactRequest);
-        String token = service.addContact(dto);      
-        return ResponseEntity
+        String token;
+        try {
+            token = service.addContact(dto);
+            return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(token+" \nNew contact was added successfully. (CODE 201)\n");
-    }
-    
+        } catch (ValidationException e) {
+            // TODO Auto-generated catch block
+            return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(e.getMessage());
+        }      
+    } 
     
     @GetMapping("get/{token}")
     public ResponseEntity<ContactResponse> getContact(@PathVariable String token) {

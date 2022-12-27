@@ -13,5 +13,8 @@ import com.bridgelabz.address_book.repository.model.ContactData;
 public interface IAddressBookRepository extends JpaRepository<ContactData,Integer>{
     @Query(value = "select * from contact_data contact where contact.email=:email_id",nativeQuery = true)
     ContactData findContactByEmail(@Param("email_id") String email_id);
+
+    @Query(value = "select count(id) from contact_data contact where contact.email=:email_id and contact.phone_no=:phoneNumber",nativeQuery = true)
+    int isContactIsPresent(@Param("email_id") String email_id,long phoneNumber);
     
 }
