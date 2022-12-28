@@ -22,7 +22,7 @@ public interface IAddressBookRepository extends JpaRepository<ContactData,Intege
     List<ContactData> getSortedContacts(Sort sort);
     //List<ContactData> getSortedContacts(Pageable p);
 
-    @Query(value = "select * from contact_data contact where contact.full_Name LIKE %:searchString%",nativeQuery = true)
+    @Query(value = "select * from contact_data contact where contact.full_Name LIKE %:searchString% or contact.city LIKE %:searchString% or contact.state LIKE %:searchString% or contact.phone_no LIKE %:searchString%",nativeQuery = true)
     List<ContactData> findContactsBySearchString(@Param("searchString") String searchString);
 
     
