@@ -3,6 +3,8 @@ package com.bridgelabz.address_book.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.address_book.advice.AddressBookException;
@@ -88,6 +90,20 @@ public class AddressBookService implements IAddressBookService {
         ContactData contact = repository.findContactByEmail(mail);
         ContactDTO dto = Mapper.fromRepository(contact);
         return dto;
+    }
+
+    @Override
+    public List<ContactDTO> getContactsByOrder(String sortCol, Direction sortDirection) {
+        
+        List<ContactData> list = repository.getSortedContacts(JpaSort.unsafe(sortDirection,sortCol));
+        // List<ContactData> list = repository.getSortedContacts(PageRequest.of(0, 1000000, Sort.Direction.DESC, sortColumn));
+        return Mapper.fromRepository(list);
+    }
+
+    @Override
+    public List<ContactDTO> getContactsBySearchString(String searchString) {
+        List<ContactData> data = repository.findContactsBySearchString(searchString);
+        return Mapper.fromRepository(data);
     }
 
     

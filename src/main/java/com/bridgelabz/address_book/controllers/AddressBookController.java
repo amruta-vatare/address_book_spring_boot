@@ -3,6 +3,7 @@ package com.bridgelabz.address_book.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -89,5 +90,22 @@ public class AddressBookController {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(contactResponse);
+    }
+
+    @GetMapping("/allByOrder/{sortCol}/{sortDirection}")
+    public ResponseEntity<List<ContactResponse>> getContactsByOrder(@PathVariable String sortCol,@PathVariable Direction sortDirection) {
+        List<ContactDTO> contactDto =  service.getContactsByOrder(sortCol,sortDirection);
+        List<ContactResponse> contactResponse =  Mapper.fromService(contactDto);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(contactResponse);
+    }
+
+    @GetMapping("/searchContact/{searchString}")
+    public ResponseEntity<List<ContactResponse>> getContactsBySearchString(@PathVariable String searchString){
+
+        List<ContactDTO> contactDTO =  service.getContactsBySearchString(searchString);
+        List<ContactResponse> responses = Mapper.fromService(contactDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 }
